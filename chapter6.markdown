@@ -78,7 +78,7 @@
 
 在这种模式中，子对象既继承了（父对象）“自己的属性”（添加给this的实例属性，比如name），也继承了原型中的属性和方法（比如say()）。
 
-我们来看一下在这种继承模式中原型链是怎么工作的。为了讨论方便，我们假设对象是内在中的一块空间，它包含数据和指向其它空间的引用。当使用new Parent()创建一个对象时，这样的一块空间就被分配了（图6-1中的2号）。它保存着name属性的数据。如果你尝试访问say()方法（比如通过(new Parent).say()），2号空间中并没有这个方法。但是在通过隐藏的链接__proto__指向Parent()构建函数的原型prototype属性时，就可以访问到包含say()方法的1号空间（Parent.prototype）了。所有的这一块都是在幕后发生的，不需要任何额外的操作，但是知道它是怎样工作的以及你正在访问或者修正的数据在哪是很重要的。注意，__proto__在这里只是为了解释原型链，这个属性在语言本身中是不可用的，尽管有一些环境提供了（比如Firefox）。
+我们来看一下在这种继承模式中原型链是怎么工作的。为了讨论方便，我们假设对象是内存中的一块空间，它包含数据和指向其它空间的引用。当使用new Parent()创建一个对象时，这样的一块空间就被分配了（图6-1中的2号）。它保存着name属性的数据。如果你尝试访问say()方法（比如通过(new Parent).say()），2号空间中并没有这个方法。但是在通过隐藏的链接__proto__指向Parent()构建函数的原型prototype属性时，就可以访问到包含say()方法的1号空间（Parent.prototype）了。所有的这一块都是在幕后发生的，不需要任何额外的操作，但是知道它是怎样工作的以及你正在访问或者修正的数据在哪是很重要的。注意，__proto__在这里只是为了解释原型链，这个属性在语言本身中是不可用的，尽管有一些环境提供了（比如Firefox）。
 
 ![图6-1 Parent()构造函数的原型链](./Figure/chapter6/6-1.jpg)
 
@@ -525,7 +525,7 @@ constructor属性很少用，但是在运行时检查对象很方便。你可以
 <a name="a18"></a>
 ### 讨论
 
-在原型继承模式中，parent不需要使用对象字面量来创建。（尽管这是一种更觉的方式。）可以使用构造函数来创建parent。注意，如果你这样做，那么自己的属性和原型上的属性都将被继承：
+在原型继承模式中，parent不需要使用对象字面量来创建。（尽管这是一种更常用的方式。）可以使用构造函数来创建parent。注意，如果你这样做，那么自己的属性和原型上的属性都将被继承：
 
 	// parent constructor
 	function Person() {
@@ -721,8 +721,8 @@ Object.create()接收一个额外的参数——一个对象。这个额外对�
 
 	function f() {
 		var args = [].slice.call(arguments, 1, 3);
-			return args;
-		}
+		return args;
+	}
 		
 	// example
 	f(1, 2, 3, 4, 5, 6); // returns [2,3]
@@ -754,7 +754,7 @@ Object.create()接收一个额外的参数——一个对象。这个额外对�
 	
 	one.say.apply(two, ['hello']); // "hello, another object"
 	
-在这个例子中，say()方法中的this指向了two，this.name是“another object”。但是如果在某些场景下你将th函数赋值给了全局变量或者是将这个函数作为回调，会发生什么？在客户端编程中有非常多的事件和回调，所以这种情况经常发生：
+在这个例子中，say()方法中的this指向了two，this.name是“another object”。但是如果在某些场景下你将函数赋值给了全局变量或者是将这个函数作为回调，会发生什么？在客户端编程中有非常多的事件和回调，所以这种情况经常发生：
 
 	// assigning to a variable
 	// `this` will point to the global object
@@ -794,7 +794,7 @@ ECMAScript5在Function.prototype中添加了一个方法叫bind()，使用时和
 
 	var newFunc = obj.someFunc.bind(myobj, 1, 2, 3);
 	
-这意味着将someFunc()主myobj绑定了并且传入了someFunc()的前三个参数。这也是一个在第4章讨论过的部分应用的例子。
+这意味着将someFunc()和myobj绑定了,并且还传入了someFunc()的前三个参数。这也是一个在第4章讨论过的部分应用的例子。
 
 让我们来看一下当你的程序跑在低于ES5的环境中时如何实现Function.prototype.bind()：
 
